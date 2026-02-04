@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Potrace Minimal — SVG Vectorizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg" aria-hidden="true"></div>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span>Potrace Minimal</span>
+      </div>
+      <div class="status" id="status">Готов</div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <h1>SVG‑векторизатор</h1>
+        <p>
+          Загрузи изображение, настрой параметры и получи чистый SVG с помощью
+          potrace. Никаких лишних шагов.
+        </p>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Источник</h2>
+            <div class="hint">PNG, JPG, BMP</div>
+          </div>
+
+          <label class="dropzone" id="dropzone">
+            <input id="fileInput" type="file" accept="image/*" />
+            <div class="dz-title">Перетащи файл сюда</div>
+            <div class="dz-sub">или кликни, чтобы выбрать</div>
+          </label>
+
+          <div class="preview">
+            <img id="rasterPreview" alt="Превью" />
+            <div class="meta" id="fileMeta">Файл не выбран</div>
+          </div>
+
+          <details class="details" open>
+            <summary>Параметры potrace</summary>
+            <div class="controls">
+              <label>
+                Политика поворота
+                <select id="turnPolicy">
+                  <option value="minority">меньшинство</option>
+                  <option value="majority">большинство</option>
+                  <option value="black">черный</option>
+                  <option value="white">белый</option>
+                  <option value="left">влево</option>
+                  <option value="right">вправо</option>
+                </select>
+              </label>
+              <label>
+                Фильтр шума
+                <input id="turdSize" type="range" min="0" max="50" step="1" value="2" />
+                <span class="value" id="turdSizeVal">2</span>
+              </label>
+              <label class="row">
+                Оптимизировать кривые
+                <input id="optCurve" type="checkbox" checked />
+              </label>
+              <label>
+                Максимум угла
+                <input id="alphaMax" type="range" min="0.3" max="2" step="0.05" value="1" />
+                <span class="value" id="alphaMaxVal">1.00</span>
+              </label>
+              <label>
+                Точность оптимизации
+                <input id="optTolerance" type="range" min="0" max="1" step="0.02" value="0.2" />
+                <span class="value" id="optToleranceVal">0.20</span>
+              </label>
+            </div>
+          </details>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Результат</h2>
+            <div class="hint" id="svgMeta">SVG пока пуст</div>
+          </div>
+
+          <div class="toolbar">
+            <label class="chip">
+              Масштаб
+              <input id="scale" type="range" min="0.2" max="4" step="0.1" value="1" />
+              <span class="value" id="scaleVal">1.0×</span>
+            </label>
+            <div class="mode">
+              <button class="mode-btn active" data-mode="fill">Заливка</button>
+              <button class="mode-btn" data-mode="curve">Контур</button>
+            </div>
+            <div class="actions">
+              <button id="copySvg" class="ghost">Копировать SVG</button>
+              <button id="downloadSvg" class="primary">Скачать</button>
+            </div>
+          </div>
+
+          <div class="vector-stage" id="vectorStage">
+            <div class="empty">SVG появится здесь</div>
+          </div>
+
+          <textarea id="svgOutput" class="code" spellcheck="false" readonly>
+          </textarea>
+        </div>
+      </section>
+    </main>
+
+    <script src="portrace.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
