@@ -313,11 +313,6 @@ button.ghost {
   display: block;
 }
 
-.vector-stage svg path {
-  fill: var(--ink) !important;
-  stroke: var(--ink) !important;
-}
-
 .vector-stage .empty {
   color: var(--muted);
   font-size: 14px;
@@ -327,6 +322,19 @@ button.ghost {
 .vector-stage.is-empty {
   align-items: center;
   justify-content: center;
+}
+
+.vector-stage.mode-fill svg path {
+  fill: var(--ink) !important;
+  stroke: none !important;
+}
+
+.vector-stage.mode-curve svg path {
+  fill: none !important;
+  stroke: var(--ink) !important;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .code {

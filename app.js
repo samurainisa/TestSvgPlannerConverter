@@ -94,11 +94,17 @@ function renderSvg(svg) {
   vectorStage.innerHTML = currentSvg ? currentSvg : '<div class="empty">SVG появится здесь</div>';
   vectorStage.classList.toggle("is-empty", !currentSvg);
   svgOutput.value = currentSvg;
+  applyModeClass();
   if (currentSvg) {
     setSvgMeta(`SVG ${currentSvg.length} символов`);
   } else {
     setSvgMeta("SVG пока пуст");
   }
+}
+
+function applyModeClass() {
+  vectorStage.classList.remove("mode-fill", "mode-curve");
+  vectorStage.classList.add(`mode-${currentMode}`);
 }
 
 function handleFile(file) {
@@ -174,6 +180,7 @@ modeButtons.forEach((btn) => {
     modeButtons.forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     currentMode = btn.dataset.mode;
+    applyModeClass();
     scheduleProcess();
   });
 });
@@ -183,4 +190,5 @@ copyBtn.addEventListener("click", copySvg);
 
 updateValueDisplays();
 vectorStage.classList.add("is-empty");
+applyModeClass();
 renderSvg("");

@@ -1219,6 +1219,7 @@ var Potrace = (function() {
       setTimeout(process, 100);
       return;
     }
+    pathlist = [];
     bmToPathlist();
     processPath();
     callback();
