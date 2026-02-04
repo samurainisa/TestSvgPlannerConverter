@@ -89,13 +89,34 @@ function runPotrace() {
   });
 }
 
+function normalizeSvg(svg) {
+  if (!svg) return svg;
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svg, "image/svg+xml");
+    const svgEl = doc.documentElement;
+    if (!svgEl.getAttribute("viewBox")) {
+      const w = parseFloat(svgEl.getAttribute("width"));
+      const h = parseFloat(svgEl.getAttribute("height"));
+      if (Number.isFinite(w) && Number.isFinite(h)) {
+        svgEl.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      }
+    }
+    svgEl.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    return svgEl.outerHTML;
+  } catch (err) {
+    return svg;
+  }
+}
+
 function renderSvg(svg) {
   currentSvg = svg || "";
-  vectorStage.innerHTML = currentSvg ? currentSvg : '<div class="empty">SVG появится здесь</div>';
-  vectorStage.classList.toggle("is-empty", !currentSvg);
+  const previewSvg = normalizeSvg(currentSvg);
+  vectorStage.innerHTML = previewSvg ? previewSvg : '<div class="empty">SVG появится здесь</div>';
+  vectorStage.classList.toggle("is-empty", !previewSvg);
   svgOutput.value = currentSvg;
   applyModeClass();
-  if (currentSvg) {
+  if (previewSvg) {
     setSvgMeta(`SVG ${currentSvg.length} символов`);
   } else {
     setSvgMeta("SVG пока пуст");
